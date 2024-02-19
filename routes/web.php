@@ -17,16 +17,18 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [BlogController::class, 'index'])->name('main');
 
-Route::get('/blog/{id}', [BlogController::class, 'blog'])->name('blog');
-
 Route::get('/blogs', [BlogController::class, 'blogs'])->name('blog-list');
-
-Route::post('/blog', [BlogController::class, 'create'])->name('blog-create');
-
-Route::get('/blog/{id}/delete', [BlogController::class, 'delete'])->name('blog-delete');
-
-Route::put('/blog/{id}', [BlogController::class, 'update'])->name('blog-update');
 
 Auth::routes();
 
 Route::get('/check-login', [HomeController::class, 'index'])->name('check-login');
+
+Route::prefix('blog')->group(function () {
+    Route::post('/', [BlogController::class, 'create'])->name('blog-create');
+
+    Route::get('/{id}/delete', [BlogController::class, 'delete'])->name('blog-delete');
+
+    Route::put('/{id}', [BlogController::class, 'update'])->name('blog-update');
+
+    Route::get('/{id}', [BlogController::class, 'blog'])->name('blog');
+});

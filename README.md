@@ -22,7 +22,7 @@
 [x] Seeder
 [ ] Sendmail
 [x] View
-[ ] Relation
+[x] Relation
 
 # FYL
 
@@ -30,6 +30,8 @@ migration -> model->factories -> seeder -> dbseeder
 
 route (web) -> controller (app/http)(handle service) -> models
 route (web) -> controller (app/http)(handle view) -> resources (view)
+
+Exp: auth->blog controller
 
 # cmd
 

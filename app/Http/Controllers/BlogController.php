@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -31,7 +32,7 @@ class BlogController extends Controller
 
     function blog($id)
     {
-        $blog = Blog::where('id', $id)->first();
+        $blog = Blog::where('id', $id)->with('user')->first();
         return view('blog', compact('blog'));
     }
 
@@ -39,14 +40,15 @@ class BlogController extends Controller
     {
         $request->validate(
             [
-                'title' => 'required|max:50|unique:blogs'
+                'title' => 'required|max:50|unique:blogs',
             ],
             [
                 'title.unique' => 'The title has already been taken.'
             ]
         );
         Blog::insert([
-            'title' => $request->title
+            'title' => $request->title,
+            'user_id' => Auth::id()
         ]);
         return redirect(route('blog-list'));
     }
@@ -67,7 +69,7 @@ class BlogController extends Controller
                 ]
             );
         }
-        Blog::where('id', $id)->update(['title' => $request->title]);
+        Blog::find($id)->update(['title' => $request->title]);
         return redirect(route('blog', ['id' => $id]));
     }
 

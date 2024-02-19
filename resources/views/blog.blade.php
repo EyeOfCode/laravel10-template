@@ -23,6 +23,7 @@
                 Update
             </button>
         </div>
+        <p>createdBy: {{ $blog->user->name }}</p>
         @error('title')
         <p class="text-red-500 text-xs italic">{{ $message }}</p>
         @enderror
